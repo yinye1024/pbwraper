@@ -6,7 +6,7 @@
 %%% @end
 %%% Created : 25. 四月 2021 19:45
 %%%-------------------------------------------------------------------
--module(yypb_exmp_pb_worker_data).
+-module(yypb_tpl_pb_worker_data).
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").

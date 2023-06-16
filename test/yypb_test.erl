@@ -16,6 +16,7 @@
 %% API functions implements
 %% ===================================================================================
 pb_test_() ->
+  yyu_logger:start(),
   ?LOG_INFO({"client test ==================="}),
 
   {foreach,
@@ -28,21 +29,21 @@ pb_test_() ->
 
 start() ->
   ?LOG_INFO({"test start"}),
-  yypb_exmp_poolboy_mgr:init(),
-  PbPid = yypb_exmp_poolboy_mgr:new_pool(?PoolId,10),
+  yypb_test_poolboy_mgr:init(),
+  PbPid = yypb_test_poolboy_mgr:new_pool(?PoolId,10),
   {PbPid}.
 
 stop({PbPid}) ->
   ?LOG_INFO({"test end"}),
-  yypb_exmp_poolboy_mgr:stop_pool(PbPid),
+  yypb_test_poolboy_mgr:stop_pool(PbPid),
   ?OK.
 
 
 
 add_count({_PbPid})->
-  yypb_exmp_poolboy_mgr:add_count(?PoolId,2),
+  {?OK,Result} = yypb_test_poolboy_mgr:add_count(?PoolId,2),
   [
-    ?_assert(true)
+    ?_assertMatch(Result,2)
   ].
 
 

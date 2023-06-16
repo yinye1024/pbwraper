@@ -6,7 +6,7 @@
 %%% @end
 %%% Created : 25. 四月 2021 19:45
 %%%-------------------------------------------------------------------
--module(yypb_exmp_poolboy_mgr).
+-module(yypb_test_poolboy_mgr).
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
@@ -19,20 +19,20 @@
 %% ===================================================================================
 
 %% =======================  WorkMod 相关方法 ============================================================
-%% yypb_exmp_poolboy_mgr:init().
+%% yypb_test_poolboy_mgr:init().
 init()->
   yypb_poolboy_api:ensure_sup_started(),
   ?OK.
 
 %% yypb_exmp_poolboy_mgr:new_pool(test,10).
 new_pool(PoolId,PoolSize)->
-  WorkerAgent = yypb_pb_worker_agent:new_pojo(yypb_exmp_pb_worker, yypb_exmp_pb_worker_data:new_pojo()),
+  WorkerAgent = yypb_pb_worker_agent:new_pojo(yypb_test_pb_worker:get_mod(), yypb_test_pb_worker_data:new_pojo()),
   WorkPid = yypb_poolboy_api:new_pool(PoolId,PoolSize,WorkerAgent),
   WorkPid.
 
 %% yypb_exmp_poolboy_mgr:add_count(test,10).
 add_count(PoolId,Param) when is_number(Param)->
-  WorkFun = fun yypb_exmp_pb_worker:add_count/2,
+  WorkFun = fun yypb_test_pb_worker:add_count/2,
   Result = yypb_poolboy_api:do_work(PoolId,{WorkFun,Param}),
   {?OK,Result}.
 

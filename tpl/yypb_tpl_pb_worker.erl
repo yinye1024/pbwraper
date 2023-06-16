@@ -6,14 +6,14 @@
 %%% @end
 %%% Created : 25. 四月 2021 19:45
 %%%-------------------------------------------------------------------
--module(yypb_exmp_pb_worker).
+-module(yypb_tpl_pb_worker).
 -author("yinye").
 
 -include_lib("yyutils/include/yyu_comm.hrl").
 
 
 %% API functions defined
--export([init/1,get_tick_time_span/0,do_fun/2,loop_tick/1]).
+-export([get_mod/0,init/1,get_tick_time_span/0,do_fun/2,loop_tick/1]).
 -export([add_count/2]).
 
 %% ===================================================================================
@@ -21,6 +21,8 @@
 %% ===================================================================================
 
 %% =======================  WorkMod 相关方法 ============================================================
+get_mod()->?MODULE.
+
 init(WorkData)->
   ?LOG_INFO({"do init"}),
   WorkData.
@@ -31,8 +33,8 @@ get_tick_time_span()->
 
 %% return NewWorkData
 loop_tick(WorkData)->
-  Tick = yypb_exmp_pb_worker_data:get_tick(WorkData),
-  NewWorkData = yypb_exmp_pb_worker_data:set_tick(Tick,WorkData),
+  Tick = yypb_tpl_pb_worker_data:get_tick(WorkData),
+  NewWorkData = yypb_tpl_pb_worker_data:set_tick(Tick,WorkData),
   ?LOG_INFO({"loop tick",[count, Tick]}),
   NewWorkData.
 
@@ -43,7 +45,7 @@ do_fun({Fun,Param},WorkData)->
 
 %% ================ call fun ===================================
 add_count(Param,WorkData)->
-  Count = yypb_exmp_pb_worker_data:get_tick(WorkData),
+  Count = yypb_tpl_pb_worker_data:get_tick(WorkData),
   Count+Param.
 
 
